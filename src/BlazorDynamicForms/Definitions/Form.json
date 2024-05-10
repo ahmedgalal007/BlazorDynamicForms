@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "JSON Schema for my JSON file format",
+
+  "type": "object",
+
+  "properties": {
+    "fields": {
+      "type": [ "array", "null" ],
+      "items": { "type": "object" },
+      "description": "This is the properties of the class to be generated"
+    },
+    "name": {
+      "type": "string",
+      "description": "This shows up in tooltips for the 'name' property."
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "This shows up in tooltips for the 'name' property."
+    },
+    "Actions": {
+      "type": [ "array" ],
+      "items": { "type": "string" },
+      "description": "This is the Actions impelemented on the url"
+    },
+    "required": {
+      ""
+    },
+    "versions": {
+      "type": "array",
+      "description": "An array of version numbers.",
+      "minItems": 1,
+      "items": {
+        "type": "number"
+      }
+    }
+  }
+}
