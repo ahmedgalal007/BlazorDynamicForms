@@ -1,5 +1,5 @@
-using Host.Client.Pages;
 using Host.Components;
+using Microsoft.AspNetCore.Http.HttpResults;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,5 +32,5 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddInteractiveWebAssemblyRenderMode()
     .AddAdditionalAssemblies(typeof(Host.Client._Imports).Assembly);
-
+// app.MapGet("/greeting", () => new RazorComponentResult<BlazorFormBuilderDialog>());
 app.Run();

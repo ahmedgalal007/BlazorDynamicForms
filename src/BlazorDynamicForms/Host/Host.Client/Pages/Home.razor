@@ -1,7 +1,22 @@
 ﻿@page "/"
-
+@rendermode RenderMode.InteractiveAuto
+@inject IDialogService DialogService
 <PageTitle>Home</PageTitle>
 
 <h1>Hello, world!</h1>
 
-Welcome to your new app.
+    <MudButton @onclick="OpenDialog" Variant="Variant.Filled" Color="Color.Primary">
+        Open Simple Dialog
+    </MudButton>
+
+@code {
+
+
+
+    private void OpenDialog()
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true };
+
+        // DialogService.Show<FormBuilderDialog>("Simple Dialog", options);
+    }
+}

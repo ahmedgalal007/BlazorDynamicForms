@@ -9,6 +9,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Host.Client\Host.Client.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.4" />
+    <PackageReference Include="MudBlazor" Version="6.19.1" />
   </ItemGroup>
 
 </Project>
