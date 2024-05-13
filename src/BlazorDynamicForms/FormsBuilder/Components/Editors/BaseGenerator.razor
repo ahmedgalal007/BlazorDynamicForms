@@ -1,0 +1,70 @@
+﻿<MudGrid>
+
+    @{var newRow = 0; }
+
+    @foreach (var item in MetaDatas)
+    {
+        @switch (Enum.GetName(typeof(EnumValueTypes), item.DataType).ToLower())
+        {
+            case "boolean":
+
+                <MudItem xs="12" md="@item.Cols">
+                    <MudCheckBox @bind-Value="@item.Value"  Color="Color.Tertiary">"@(item.Name)"</MudCheckBox>
+                </MudItem>
+                break;
+            case "text":
+                
+                <MudItem xs="12" md="@item.Cols">
+                    <MudTextField T="string" @bind-Value="@item.Value" Label="@item.Name" InputType="@item.InputType" Format="" Required="@item.Required" RequiredError="Component Name is required!" />
+                </MudItem>
+                break;
+
+            case "number":
+
+                <MudItem xs="12" md="@item.Cols">
+                    <MudTextField T="int" @bind-Value="@item.ValueAsInt" Label="@item.Name" InputType="@item.InputType" Format="" Required="@item.Required" RequiredError="Component Name is required!" />
+                </MudItem>
+                break;
+
+            case var s when new[] { "datetime", "date" }.Contains(s):
+                
+                <MudItem xs="12" md="@item.Cols">
+                    <MudTextField T="DateTime?" Format="@item.Format" @bind-Value="@item.ValueAsDateTime" Label="@item.Name" InputType="@item.InputType" Required="@item.Required" RequiredError="Component Name is required!" />
+                </MudItem>
+                break;
+            case "time":
+
+                <MudItem xs="12" md="@item.Cols">
+                    <MudTextField T="string"  @bind-Value="@item.Value" Label="@item.Name" InputType="@item.InputType" Required="@item.Required" RequiredError="Component Name is required!" />
+                </MudItem>
+                break;
+            default:
+
+                <MudItem xs="12" md="@item.Cols">
+                    
+                    <MudTextField T="string" @bind-Value="@item.Value" Label="@item.Name" InputType="@item.InputType" Format="" Required="@item.Required" RequiredError="Component Name is required!" />
+                </MudItem>
+                break;
+        }
+
+    }
+
+</MudGrid>
+
+<MudDivider  Class="my-12"/>
+<BaseGeneratorForm />
+@code {
+    // public string dataType { get; set; }
+    // InputType inputType = InputType.Text;
+    // Dictionary<string, MetaDataItem> MyProperties { get; set; }
+
+    [Parameter]
+    public List<MetaDataItem> MetaDatas { get; set; } = new();
+
+
+    protected override Task OnParametersSetAsync()
+    {
+        
+        return base.OnParametersSetAsync();
+    }
+}

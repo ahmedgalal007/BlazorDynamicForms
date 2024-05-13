@@ -1,0 +1,21 @@
+﻿
+<MudSelect T="InputType" @bind-Value="@inputType" Label="Select INPUT Type" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" >
+
+    @foreach (var item in inputTypes)
+    {
+        <MudSelectItem Value="@(item.Value)">@item.Key</MudSelectItem>
+    }
+</MudSelect>
+@code {
+    InputType inputType ;
+
+    Dictionary<string, InputType> inputTypes { get; set; } = new();
+    protected override Task OnInitializedAsync()
+    {
+        foreach (var item in Enum.GetValues<InputType>())
+        {
+            inputTypes.Add(Enum.GetName<InputType>(item), item);
+        }
+        return base.OnInitializedAsync();
+    }
+}

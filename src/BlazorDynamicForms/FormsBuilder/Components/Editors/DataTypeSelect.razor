@@ -1,0 +1,21 @@
+﻿
+<MudSelect T="EnumValueTypes" @bind-Value="@dataType" Label="Select Data Type" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined">
+
+    @foreach (var item in dataTypes)
+    {
+        <MudSelectItem Value="@(item.Value)">@item.Key</MudSelectItem>
+    }
+</MudSelect>
+@code {
+    EnumValueTypes dataType;
+
+    Dictionary<string, EnumValueTypes> dataTypes { get; set; } = new();
+    protected override Task OnInitializedAsync()
+    {
+        foreach (var item in Enum.GetValues<EnumValueTypes>())
+        {
+            dataTypes.Add(Enum.GetName<EnumValueTypes>(item), item);
+        }
+        return base.OnInitializedAsync();
+    }
+}

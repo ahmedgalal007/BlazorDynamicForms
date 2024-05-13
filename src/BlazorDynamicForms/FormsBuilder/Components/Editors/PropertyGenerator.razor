@@ -1,0 +1,55 @@
+﻿@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
+@using Constants;
+@using FormsBuilder.Contracts;
+
+
+<div Class="d-flex flex-column pa-3 ma-4 flex-grow-1">
+    <MudGrid>
+        <MudItem xs="12">
+            <MudPaper Class="pa-4">
+                <MudForm @ref="form" @bind-IsValid="@success" @bind-Errors="@errors">
+                    <MudGrid>
+                        <MudItem xs="6">
+                            <MudTextField T="string" Variant="Variant.Outlined" Label="Component Name" Required="true" RequiredError="Component Name is required!" />
+                        </MudItem>
+                        <MudItem xs="6">
+                            <MudSelect T="PropertyValueType"
+                                       Label="Property Type" Variant="Variant.Outlined"
+                                       @bind-Value="@selectedType">
+                                @foreach (var item in PropertyValueType.getBaseTypes())
+                                {
+                                    <MudSelectItem Value="@(item.Value)">
+                                        <MudIcon Icon="@item.Value.Icon" height="24" class="ms-1 me-2"></MudIcon><span style="line-height:24px;font-size:24px;">@item.Value.Name</span>
+                                    </MudSelectItem>
+                                }
+                            </MudSelect>
+                        </MudItem>
+                    </MudGrid>
+                    <DynamicComponent Type="selectedType.ComponentType" @ref="dc" @rendermode="InteractiveServer" Parameters="selectedType.GetParameters()" />
+                </MudForm>
+            </MudPaper>
+            <MudPaper Class="pa-4 mt-4">
+                <MudButton Variant="Variant.Filled" Color="Color.Primary" DisableElevation="true" OnClick="@(()=>form.Validate())">Validate</MudButton>
+                <MudButton Variant="Variant.Filled" Color="Color.Secondary" DisableElevation="true" OnClick="@(()=>form.ResetAsync())" Class="mx-2">Reset</MudButton>
+                <MudButton Variant="Variant.Filled" DisableElevation="true" OnClick="@(()=>form.ResetValidation())">Reset Validation</MudButton>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+
+
+    @code {
+        bool success;
+        string[] errors = { };
+        MudTextField<string> pwField1;
+        MudForm form;
+
+        private DynamicComponent dc = new DynamicComponent();
+
+        private PropertyValueType selectedType { get; set; } = PropertyValueType.getBaseTypes()["Text"];
+
+
+    }
+
+
+</div>
