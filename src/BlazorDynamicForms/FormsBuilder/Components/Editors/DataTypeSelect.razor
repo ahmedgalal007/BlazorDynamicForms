@@ -1,5 +1,5 @@
 ﻿
-<MudSelect T="EnumValueTypes" @bind-Value="@dataType" Label="Select Data Type" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined">
+<MudSelect T="EnumValueTypes" @bind-Value="@Model.DataType" Label="Select Data Type" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined">
 
     @foreach (var item in dataTypes)
     {
@@ -7,8 +7,10 @@
     }
 </MudSelect>
 @code {
-    EnumValueTypes dataType;
-
+    //[Parameter]
+    //public EnumValueTypes DataType { get; set; }
+    [Parameter]
+    public MetaDataItem Model { get; set; }
     Dictionary<string, EnumValueTypes> dataTypes { get; set; } = new();
     protected override Task OnInitializedAsync()
     {

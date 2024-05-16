@@ -1,5 +1,5 @@
 ﻿
-<MudSelect T="InputType" @bind-Value="@inputType" Label="Select INPUT Type" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" >
+<MudSelect T="InputType" @bind-Value="@Model.InputType" Label="Select Input Type" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined" >
 
     @foreach (var item in inputTypes)
     {
@@ -7,7 +7,10 @@
     }
 </MudSelect>
 @code {
-    InputType inputType ;
+    // [Parameter]
+    // public InputType InputType { get; set; }
+    [Parameter]
+    public MetaDataItem Model { get; set; }
 
     Dictionary<string, InputType> inputTypes { get; set; } = new();
     protected override Task OnInitializedAsync()
