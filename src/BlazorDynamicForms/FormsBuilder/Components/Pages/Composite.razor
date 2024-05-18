@@ -1,7 +1,14 @@
 ﻿@page "/composite"
 @using FormsBuilder.Components.Editors
+@using FormsBuilder.Components.Dialogs 
+@inject IDialogService DialogService
 
-<PropertyGenerator></PropertyGenerator>
+
+@* <PropertyGenerator></PropertyGenerator> *@
+
+<MudButton @onclick="OpenDialog" Variant="Variant.Filled" Color="Color.Primary">
+	Open Simple Dialog
+</MudButton>
 
 <MudDropContainer T="DropItem" Items="_items" ApplyDropClassesOnDragStarted="_applyDropClassesOnDragStarted" ItemsSelector="@((item,dropzone) => item.Place == dropzone)" CanDropClass="mud-border-success" NoDropClass="mud-border-error" ItemDropped="ItemUpdated" Class="d-flex flex-column flex-grow-1">
 	<ChildContent>
@@ -32,7 +39,14 @@
 </MudDropContainer>
 
 @code {
+
 	private bool _applyDropClassesOnDragStarted = false;
+
+	private void OpenDialog()
+	{
+		var options = new DialogOptions {CloseButton=true, CloseOnEscapeKey = true, MaxWidth = MaxWidth.Large, FullWidth = true, Position = DialogPosition.TopCenter };
+		DialogService.Show<PropertyAddEditDialog>("Edit Property", options);
+	}
 
 	private void Reset()
 	{
