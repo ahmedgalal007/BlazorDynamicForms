@@ -1,12 +1,12 @@
 ﻿<MudPaper Width="250px" Elevation="0" Class="py-1">
     <MudNavMenu Margin="Margin.Normal" Color="Color.Error">
-        <MudNavLink Href="/" Icon="@Icons.Material.Filled.Dashboard">Dashboard</MudNavLink>
-        <MudNavLink Href="/composite" Icon="@Icons.Material.Filled.Storage">Composite</MudNavLink>
-        <MudNavLink Href="/" Icon="@Icons.Material.Filled.Science">The Lab</MudNavLink>
-        <MudNavGroup Title="Settings" Expanded="true">
-            <MudNavLink Href="/">Users</MudNavLink>
-            <MudNavLink Href="/">Security</MudNavLink>
+        <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">Dashboard</MudNavLink>
+        <MudNavLink Href="/composite" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Storage">Composite</MudNavLink>
+        <MudNavLink Href="/" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Science">The Lab</MudNavLink>
+        <MudNavGroup Title="Settings"  Expanded="true">
+            <MudNavLink Href="/" Match="NavLinkMatch.All">Users</MudNavLink>
+            <MudNavLink Href="/" Match="NavLinkMatch.All">Security</MudNavLink>
         </MudNavGroup>
-        <MudNavLink Href="/">About</MudNavLink>
+        <MudNavLink Href="/" Match="NavLinkMatch.All" >About</MudNavLink>
     </MudNavMenu>
 </MudPaper>

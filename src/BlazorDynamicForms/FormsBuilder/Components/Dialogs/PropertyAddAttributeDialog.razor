@@ -1,5 +1,18 @@
-﻿<h3>PropertyAddAttributeDialog</h3>
-
+﻿@using FormsBuilder.Components.Editors
+<MudDialog>
+    <DialogContent>
+        <BaseGeneratorForm MetaDatas="@MetaDatas"/>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
 @code {
+    [Parameter]
+    public List<MetaDataItem> MetaDatas { get; set; } = new();
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
 
+    void Submit() => MudDialog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDialog.Cancel();
 }

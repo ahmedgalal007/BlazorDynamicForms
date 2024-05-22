@@ -37,12 +37,16 @@
         </MudForm>
         <MudCardActions>
             <MudText>@print() </MudText>
-            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await Submit())">Order</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(async () => await Submit())">Add</MudButton>
         </MudCardActions>
     </MudCard>
 </MudPaper>
 @code {
     [Inject] ISnackbar Snackbar {   get; set; }
+
+    [Parameter]
+    public List<MetaDataItem> MetaDatas { get; set; } = new();
+
     public string Logger { get; set; }
     string print() { return Logger; }
 
@@ -52,6 +56,7 @@
 
     public async Task Submit()
     {
+        MetaDatas.Add(new MetaDataItem(model.Name, model.DataType, model.InputType, model.Cols, model.Required, model.Format, model.Value));
         Logger = model.DataType.ToString() +  " : " + model.InputType.ToString();
         await Task.CompletedTask;
     }

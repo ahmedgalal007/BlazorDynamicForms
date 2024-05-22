@@ -1,4 +1,8 @@
-﻿<MudGrid>
+﻿@using FormsBuilder.Components.Editors
+@using FormsBuilder.Components.Dialogs
+@inject IDialogService DialogService
+
+<MudGrid>
 
     @{var newRow = 0; }
 
@@ -52,8 +56,13 @@
 </MudGrid>
 
 <MudDivider  Class="my-12"/>
-<BaseGeneratorForm />
-@code {
+@* <BaseGeneratorForm />*@
+
+<MudButton @onclick="OpenDialog" Variant="Variant.Filled" Color="Color.Primary" Class="ma-4">
+    Add Attribute
+</MudButton>
+
+ @code {
     // public string dataType { get; set; }
     // InputType inputType = InputType.Text;
     // Dictionary<string, MetaDataItem> MyProperties { get; set; }
@@ -61,6 +70,14 @@
     [Parameter]
     public List<MetaDataItem> MetaDatas { get; set; } = new();
 
+    private void OpenDialog()
+    {
+        var parameters = new DialogParameters<PropertyAddAttributeDialog>();
+        parameters.Add(x => x.MetaDatas, MetaDatas);
+
+        // var options = new DialogOptions { CloseButton = true, CloseOnEscapeKey = true, MaxWidth = MaxWidth.Large, FullWidth = true, Position = DialogPosition.TopCenter };
+        DialogService.Show<PropertyAddAttributeDialog>("Add Attribute", parameters /* , options */);
+    }
 
     protected override Task OnParametersSetAsync()
     {
