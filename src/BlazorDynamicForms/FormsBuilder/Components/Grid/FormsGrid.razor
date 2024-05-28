@@ -1,0 +1,89 @@
+﻿<MudDropContainer T="DropItem" Items="_items" ApplyDropClassesOnDragStarted="_applyDropClassesOnDragStarted" ItemsSelector="@((item,dropzone) => item.Identifier == dropzone)" CanDropClass="mud-border-success" NoDropClass="mud-border-error" ItemDropped="ItemUpdated" Class="d-flex flex-column flex-grow-1">
+    <ChildContent>
+        <MudGrid Justify="justification" Spacing="0" Class="px-4">
+            <MudDropZone T="DropItem" AllowReorder="true" Identifier="Passive" Class="rounded-lg border-2 border-dashed mud-border-lines-default pa-1 ma-1 flex-grow-1 overflow-hidden mud-width-full" Style="min-height:60px" />
+            @for (int i= 0; i < _rows.Count; i++)
+            {
+                int localindex = i;
+                if (localindex == 0)
+                {
+                    <MudItem xs="12" md="12" >
+                        <MudButton OnClick="(() => AddGridRow(localindex))" Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Add" Color="Color.Primary" FullWidth="true" Class="pa-0 my-2">Add</MudButton>
+                    </MudItem>
+                }
+                <GridRow row="@_rows[localindex]" />
+                <MudItem xs="12" md="12">
+                    <MudButton OnClick="(() => AddGridRow(localindex + 1))" Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Add" Color="Color.Primary" FullWidth="true" Class="pa-0 my-2">Add</MudButton>
+                </MudItem>
+            }
+            
+        </MudGrid>
+    </ChildContent>
+    <ItemRenderer>
+        <MudPaper Height="54px" Width="54px" Class="pa-2" Elevation="0">
+            <MudBadge Visible="@(badge ? true : false)" Overlap="true" Icon="@Icons.Custom.Uncategorized.Bacteria" Color="Color.Dark">
+                <MudIcon Icon="@context.Icon" Color="@context.Color" Size="Size.Large" />
+            </MudBadge>
+        </MudPaper>
+    </ItemRenderer>
+</MudDropContainer>
+@code {
+    private List<RowContainer> _rows = new();
+    bool badge = false;
+    private bool _applyDropClassesOnDragStarted = false;
+    Justify justification = Justify.FlexStart;
+    private List<DropItem> _items = new()
+    {
+        new DropItem() { Identifier = "row_00_col_02" , Icon = @Icons.Custom.Uncategorized.FoodApple, Color = Color.Error},
+        new DropItem{ Identifier="row_00_col_00", Color=Color.Success, Icon=@Icons.Material.Filled.House, IsPicked=false }
+    };
+
+    protected override Task OnInitializedAsync()
+    {
+
+        AddGridRow(0);
+        AddGridRow(1);
+        foreach (DropItem item in _items)
+        {
+            if (!FindDropItemZone(item.Identifier))
+                item.Identifier = "Passive";
+        }
+        return base.OnInitializedAsync();
+    }
+    private void ItemUpdated(MudItemDropInfo<DropItem> dropItem)
+    {
+        // dropItem.Item.IsPicked = true;
+        dropItem.Item.Identifier = dropItem.DropzoneIdentifier;
+    }
+
+    private void AddGridRow(int index)
+    {
+        RowContainer row = new(index);
+        row.AddCell();
+        _rows.Insert(index, row);
+        UpdateIndexes();
+    }
+
+    public void UpdateIndexes()
+    {
+        for (int i = 0; i < _rows.Count; i++)
+        {
+            _rows[i].Index = i;
+            _rows[i].UpdateName();
+        }
+        StateHasChanged();
+    }
+
+    private bool FindDropItemZone(string zone)
+    {
+        bool founded = false;
+        foreach (var row in _rows)
+        {
+            for (int i = 0; i < row.RowCells.Count; i++)
+            {
+                if (row.GetIdentifier(i) == zone) founded = true;
+            }
+        }
+        return founded;
+    }
+}

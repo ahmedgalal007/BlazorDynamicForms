@@ -1,201 +1,153 @@
-﻿<MudDropContainer T="RowCol" Items="_items" ApplyDropClassesOnDragStarted="_applyDropClassesOnDragStarted" ItemsSelector="@((item,dropzone) => item.Place == dropzone)" CanDropClass="mud-border-success" NoDropClass="mud-border-error" ItemDropped="ItemUpdated" Class="d-flex flex-column flex-grow-1">
-    <ChildContent>
-        <MudGrid Justify="justification" Spacing="0" Class="px-4">
-            <MudItem xs="12" md="12">
-                <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Add" Color="Color.Primary" FullWidth="true" Class="pa-0 my-2">Add</MudButton>
-            </MudItem>
-            @for (int i = 0; i < papers; i++)
-            {
-                int localindex = i;
+﻿@using Components.Grid
 
-                <MudItem xs="@breaks[localindex]">
-                    <MudPaper Class="d-flex flex-column align-center justify-center mud-width-full py-0 px-2" Style="display: flex; flex-direction: column; height: 100%;">
-                        <MudStack Spacing="0" Row="true" Class="object-center align-center justify-self-center mud-width-full" >
-                            <MudIconButton Variant="@Variant.Text" Icon="@Icons.Material.Filled.KeyboardArrowLeft" OnClick="(()=>UpdateBreaks(localindex,-1))" Size="Size.Small" />
-                            <MudText Typo="Typo.body1" Align="Align.Center" Class="justify-center">@breaks[localindex]</MudText>
-                            <MudIconButton Variant="@Variant.Text" Icon="@Icons.Material.Filled.KeyboardArrowRight" OnClick="(()=>UpdateBreaks(localindex,1))" Size="Size.Small" />
+@for (int i = 0; i < row.RowCells.Count; i++)
+{
+    int localindex = i;
+
+    <MudItem xs="@row.RowCells[localindex].Cols">
+        <MudPaper Class="d-flex flex-column align-center justify-center mud-width-full py-0 px-2" Style="display: flex; flex-direction: column; height: 100%;">
+            <MudStack Spacing="0" Row="true" Class="object-center align-center justify-self-center mud-width-full">
+                <MudIconButton Variant="@Variant.Text" Icon="@Icons.Material.Filled.KeyboardArrowLeft" OnClick="(()=>UpdateBreaks(localindex,-1))" Size="Size.Small" />
+                <MudText Typo="Typo.body1" Align="Align.Center" Class="justify-center">@row.RowCells[localindex].Cols</MudText>
+                <MudIconButton Variant="@Variant.Text" Icon="@Icons.Material.Filled.KeyboardArrowRight" OnClick="(()=>UpdateBreaks(localindex,1))" Size="Size.Small" />
+                <MudSpacer />
+                <MudMenu Dense="true" ActivationEvent="@MouseEvent.LeftClick" Class="align-self-end ma-0 pa-0" Icon="@Icons.Material.Filled.MoreVert" Variant="Variant.Text" Color="Color.Primary">
+                    <MudMenuItem Class="ma-0 pa-0">
+                        <MudToolBar WrapContent="false" Class="ma-0 pa-0">
+                            <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="Color.Inherit" Class="mr-5" />
+                            <MudIconButton Icon="@Icons.Material.Outlined.Add" />
+                            <MudIconButton Icon="@Icons.Material.Outlined.Edit" />
+                            <MudIconButton Icon="@Icons.Material.Outlined.Remove" OnClick="(()=>RemoveBreaks(localindex))" Color="Color.Inherit" />
                             <MudSpacer />
-                            <MudMenu Dense="true" ActivationEvent="@MouseEvent.LeftClick" Class="align-self-end ma-0 pa-0" Icon="@Icons.Material.Filled.MoreVert" Variant="Variant.Text" Color="Color.Primary">
-                                <MudMenuItem Class="ma-0 pa-0">
-                                    <MudToolBar WrapContent="false" Class="ma-0 pa-0">
-                                        <MudIconButton Icon="@Icons.Material.Outlined.Menu" Color="Color.Inherit" Class="mr-5" />
-                                        <MudIconButton Icon="@Icons.Material.Outlined.Add" />
-                                        <MudIconButton Icon="@Icons.Material.Outlined.Edit" />
-                                        <MudIconButton Icon="@Icons.Material.Outlined.Remove" OnClick="(()=>RemoveBreaks(localindex))" Color="Color.Inherit" />
-                                        <MudSpacer />
-                                        <MudIconButton Icon="@Icons.Material.Outlined.Settings" Color="Color.Inherit" />
-                                    </MudToolBar>
-                                </MudMenuItem>
-                            </MudMenu>
-                        </MudStack>
-                        <MudStack Spacing="0" Row="true" Class="d-flex flex-grow-1 mud-width-full object-cover ">
-                            <MudIconButton OnClick="(()=>AddBreaks(localindex, -1))" Variant="@Variant.Outlined" Class="flex-grow-0 object-left ma-0 pa-0" Icon="@Icons.Material.Outlined.ArrowLeft" Size="Size.Small" ></MudIconButton>
-                            <MudDropZone T="RowCol" AllowReorder="true" Identifier="@(@"col_" + localindex.ToString())" Class="rounded-lg border-2 border-dashed mud-border-lines-default pa-1 ma-1 flex-grow-1 overflow-hidden mud-width-full" Style="min-height:60px;"></MudDropZone>
-                            <MudIconButton OnClick="(()=>AddBreaks(localindex,1))" Variant="@Variant.Outlined" Class="flex-grow-0 object-right ma-0 pa-0" Icon="@Icons.Material.Outlined.ArrowRight" Size="Size.Small" ></MudIconButton>
-                        </MudStack>
-                    </MudPaper>
-                </MudItem>
-            }
-            <MudItem xs="12" md="12">
-                <MudButton Variant="Variant.Outlined" StartIcon="@Icons.Material.Filled.Add" Color="Color.Primary" FullWidth="true" Class="pa-0 my-2">Add</MudButton>
-            </MudItem>
-        </MudGrid>
-    </ChildContent>
-    <ItemRenderer>
-        <MudPaper Height="54px" Width="54px" Class="pa-2" Elevation="0">
-            <MudBadge Visible="@(context.IsRotten ? true : false)" Overlap="true" Icon="@Icons.Custom.Uncategorized.Bacteria" Color="Color.Dark">
-                <MudIcon Icon="@context.Icon" Color="@context.Color" Size="Size.Large" />
-            </MudBadge>
+                            <MudIconButton Icon="@Icons.Material.Outlined.Settings" Color="Color.Inherit" />
+                        </MudToolBar>
+                    </MudMenuItem>
+                </MudMenu>
+            </MudStack>
+            <MudStack Spacing="0" Row="true" Class="d-flex flex-grow-1 mud-width-full object-cover ">
+                <MudIconButton OnClick="(()=>AddCell(localindex, 0))" Variant="@Variant.Outlined" Class="flex-grow-0 object-left ma-0 pa-0" Icon="@Icons.Material.Outlined.ArrowLeft" Size="Size.Small"></MudIconButton>
+                <MudDropZone T="DropItem" AllowReorder="true" Identifier="@(row.GetIdentifier(localindex))" Class="rounded-lg border-2 border-dashed mud-border-lines-default pa-1 ma-1 flex-grow-1 overflow-hidden mud-width-full" Style="min-height:60px;"></MudDropZone>
+                <MudIconButton OnClick="(()=>AddCell(localindex,1))" Variant="@Variant.Outlined" Class="flex-grow-0 object-right ma-0 pa-0" Icon="@Icons.Material.Outlined.ArrowRight" Size="Size.Small"></MudIconButton>
+            </MudStack>
         </MudPaper>
-    </ItemRenderer>
-</MudDropContainer>
+    </MudItem>
+}
+
 
 @code {
-    private List<RowCol> _items = new()
-    {
-        new RowCol() { Icon = @Icons.Custom.Uncategorized.FoodApple, Color = Color.Error, IsRotten = false, Place = "col_2" },
-        new RowCol{ Place="col_0", Color=Color.Success, Icon=@Icons.Material.Filled.House, IsPicked=false, IsRotten= false, cols = 2 }
-    };
-    private bool _applyDropClassesOnDragStarted = false;
+    [Parameter] public RowContainer row { get; set; }
+    // int _papers = 2;
+    // int papers { get { return row.RowCells.Count; } set { UpdatePapers(value); } }
 
-    int _papers = 2;
-    int papers { get { return _papers; } set { UpdatePapers(value); } }
+    // List<int> breaks = new List<int> { 6, 6 };
 
-    List<int> breaks = new List<int> { 6,6 };
-    Justify justification = Justify.FlexStart;
-
-    void UpdatePapers(int value)
-    {
-
-        List<int> newbreaks = Enumerable.Repeat(3, value).ToList();
-
-        for (int i = 0; i < newbreaks.Count(); i++)
-        {
-            if (i < breaks.Count())
-            {
-                newbreaks[i] = breaks[i];
-            }
-        }
-
-        breaks = newbreaks.ToList();
-
-        _papers = value;
-
-        StateHasChanged();
-    }
+    // void UpdatePapers(int value)
+    // {
+    //     // List<int> newbreaks = Enumerable.Repeat(3, value).ToList();
+    //     // for (int i = 0; i < newbreaks.Count(); i++)
+    //     // {
+    //     //     if (i < breaks.Count())
+    //     //     {
+    //     //         newbreaks[i] = breaks[i];
+    //     //     }
+    //     // }
+    //     // breaks = newbreaks.ToList();
+    //     // breaks = row.RowCells.Select(e => e.Cols).ToList();
+    //     // _papers = value;
+    //     StateHasChanged();
+    // }
 
     void UpdateBreaks(int index, int changeamount)
     {
-        List<int> newbreaks = breaks.ToList();
-        if (newbreaks[index] + changeamount > 12 || newbreaks[index] + changeamount < 1) return; //don't go above 12 or below 1
-        int total = 0;
-        foreach (var item in newbreaks)
-        {
-            total += item;
-        }
+        // List<int> newbreaks = breaks.ToList();
+        // if (newbreaks[index] + changeamount > 12 || newbreaks[index] + changeamount < 1) return; //don't go above 12 or below 1
+        // int total = GetTotalRowCols();
 
-        total += changeamount;
-        if (total > 12 || total  < 1) return;
+        // total += changeamount;
+        // if (total > 12 || total < 1) return;
 
-        newbreaks[index] += changeamount;
+        // newbreaks[index] += changeamount;
 
-        breaks = newbreaks; //.ToArray();
-
+        // breaks = newbreaks; //.ToArray();
+        row.UpdateCellCols(index, changeamount);
+        // breaks = row.RowCells.Select(e => e.Cols).ToList();
         StateHasChanged();
     }
 
-    void AddBreaks(int index, int changeamount)
+    void AddCell(int index, int changeamount)
     {
-        List<int> newbreaks = breaks.ToList();
+        /*List<int> newbreaks = breaks.ToList();
         if (newbreaks[index] + changeamount > 12 || newbreaks[index] + changeamount < 1) return; //don't go above 12 or below 1
         if (index + changeamount < 0) return;
-        int total = 0;
-        foreach (var item in newbreaks)
-        {
-            total += item;
-        }
+        int total = GetTotalRowCols();
         total += System.Math.Abs(changeamount);
         //if (total + changeamount > 12 || total + changeamount < 1) return;
-        if (total > 12 ) return;
-        if (!CkeckMinMaxCols(index, changeamount, System.Math.Abs(changeamount))) return;
+        if (total > 12) return;
+        // if (!CkeckMinMaxCols(index, changeamount, System.Math.Abs(changeamount))) return;
         papers = papers + 1;
         int _pose = changeamount < 0 ? index : index + changeamount;
         newbreaks.Insert(_pose, 12 - (total - System.Math.Abs(changeamount)));
         // newbreaks.Insert(_pose, 12 - (GetTotalRowCols() - System.Math.Abs(changeamount)));
 
-        foreach (var item in _items)
-        {
-            if (item.Place == "col_" + index && changeamount < 0) {
-                item.Place = "col_" + index + 1 ;
-            }
-        }
+        // foreach (var item in _items)
+        // {
+        //     if (item.Place == "col_" + index && changeamount < 0)
+        //     {
+        //         item.Place = "col_" + index + 1;
+        //     }
+        // }
 
 
-        breaks = newbreaks; //.ToArray();
+        breaks = newbreaks; //.ToArray();*/
+
+        row.AddCell(index + changeamount);
 
         StateHasChanged();
     }
 
 
 
-    void RemoveBreaks(int index )
+    void RemoveBreaks(int index)
     {
-        List<int> newbreaks = breaks.ToList();
-        int total = 0;
-        foreach (var item in newbreaks)
-        {
-            total += item;
-        }
+        /*List<int> newbreaks = breaks.ToList();
+        int total = GetTotalRowCols();
         if (total < 1 || newbreaks.Count() <= 1) { return; }
         papers = papers - 1;
         newbreaks.RemoveAt(index);
 
-        breaks = newbreaks; //.ToArray();
-
+        breaks = newbreaks; //.ToArray();*/
+        row.RowCells.RemoveAt(index);
         StateHasChanged();
     }
 
-    private int GetTotalRowCols()
-    {
-        int _total = 0;
-        foreach (var item in breaks)
-        {
-            _total += item;
-        }
-        return _total;
-    }
+    // private int GetTotalRowCols()
+    // {
+    //     int _total = 0;
+    //     foreach (var item in row.RowCells.Select(e => e.Cols))
+    //     {
+    //         _total += item;
+    //     }
+    //     return _total;
+    // }
 
-    private bool CkeckMinMaxCols(int index, int changeamount, int addToTotal)
-    {
-        if (breaks[index] + changeamount > 12 || breaks[index] + changeamount < 1) return false; //don't go above 12 or below 1
-        if (index + changeamount < 0) return false;
-        int total = 0;
-        foreach (var item in breaks)
-        {
-            total += item;
-        }
-        total += addToTotal;
-        if (total > 12 || total < 1) return false;
-        return true;
-    }
 
-    private void ItemUpdated(MudItemDropInfo<RowCol> dropItem)
-    {
-        // dropItem.Item.IsPicked = true;
-        dropItem.Item.Place = dropItem.DropzoneIdentifier;
-    }
+    
+    // private bool CkeckMinMaxCols(int index, int changeamount, int addToTotal)
+    // {
+    //     if (breaks[index] + changeamount > 12 || breaks[index] + changeamount < 1) return false; //don't go above 12 or below 1
+    //     if (index + changeamount < 0) return false;
+    //     int total = 0;
+    //     foreach (var item in breaks)
+    //     {
+    //         total += item;
+    //     }
+    //     total += addToTotal;
+    //     if (total > 12 || total < 1) return false;
+    //     return true;
+    // }
 
     // List<RowCol> Cells = new() { new() };
 
-    class RowCol
-    {
-        public int cols { get; set; } = 12;
-        public string Place { get; set; }
-        public string Icon { get; init; }
-        public Color Color { get; init; }
-        public bool IsRotten { get; set; }
-        public bool IsPicked { get; set; }
-    }
 }
 
 
