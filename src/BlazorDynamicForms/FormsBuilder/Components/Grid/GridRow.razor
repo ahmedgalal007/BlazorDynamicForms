@@ -36,118 +36,24 @@
 
 @code {
     [Parameter] public RowContainer row { get; set; }
-    // int _papers = 2;
-    // int papers { get { return row.RowCells.Count; } set { UpdatePapers(value); } }
-
-    // List<int> breaks = new List<int> { 6, 6 };
-
-    // void UpdatePapers(int value)
-    // {
-    //     // List<int> newbreaks = Enumerable.Repeat(3, value).ToList();
-    //     // for (int i = 0; i < newbreaks.Count(); i++)
-    //     // {
-    //     //     if (i < breaks.Count())
-    //     //     {
-    //     //         newbreaks[i] = breaks[i];
-    //     //     }
-    //     // }
-    //     // breaks = newbreaks.ToList();
-    //     // breaks = row.RowCells.Select(e => e.Cols).ToList();
-    //     // _papers = value;
-    //     StateHasChanged();
-    // }
 
     void UpdateBreaks(int index, int changeamount)
     {
-        // List<int> newbreaks = breaks.ToList();
-        // if (newbreaks[index] + changeamount > 12 || newbreaks[index] + changeamount < 1) return; //don't go above 12 or below 1
-        // int total = GetTotalRowCols();
-
-        // total += changeamount;
-        // if (total > 12 || total < 1) return;
-
-        // newbreaks[index] += changeamount;
-
-        // breaks = newbreaks; //.ToArray();
         row.UpdateCellCols(index, changeamount);
-        // breaks = row.RowCells.Select(e => e.Cols).ToList();
         StateHasChanged();
     }
 
     void AddCell(int index, int changeamount)
     {
-        /*List<int> newbreaks = breaks.ToList();
-        if (newbreaks[index] + changeamount > 12 || newbreaks[index] + changeamount < 1) return; //don't go above 12 or below 1
-        if (index + changeamount < 0) return;
-        int total = GetTotalRowCols();
-        total += System.Math.Abs(changeamount);
-        //if (total + changeamount > 12 || total + changeamount < 1) return;
-        if (total > 12) return;
-        // if (!CkeckMinMaxCols(index, changeamount, System.Math.Abs(changeamount))) return;
-        papers = papers + 1;
-        int _pose = changeamount < 0 ? index : index + changeamount;
-        newbreaks.Insert(_pose, 12 - (total - System.Math.Abs(changeamount)));
-        // newbreaks.Insert(_pose, 12 - (GetTotalRowCols() - System.Math.Abs(changeamount)));
-
-        // foreach (var item in _items)
-        // {
-        //     if (item.Place == "col_" + index && changeamount < 0)
-        //     {
-        //         item.Place = "col_" + index + 1;
-        //     }
-        // }
-
-
-        breaks = newbreaks; //.ToArray();*/
-
         row.AddCell(index + changeamount);
-
         StateHasChanged();
     }
-
-
 
     void RemoveBreaks(int index)
     {
-        /*List<int> newbreaks = breaks.ToList();
-        int total = GetTotalRowCols();
-        if (total < 1 || newbreaks.Count() <= 1) { return; }
-        papers = papers - 1;
-        newbreaks.RemoveAt(index);
-
-        breaks = newbreaks; //.ToArray();*/
         row.RowCells.RemoveAt(index);
         StateHasChanged();
     }
-
-    // private int GetTotalRowCols()
-    // {
-    //     int _total = 0;
-    //     foreach (var item in row.RowCells.Select(e => e.Cols))
-    //     {
-    //         _total += item;
-    //     }
-    //     return _total;
-    // }
-
-
-    
-    // private bool CkeckMinMaxCols(int index, int changeamount, int addToTotal)
-    // {
-    //     if (breaks[index] + changeamount > 12 || breaks[index] + changeamount < 1) return false; //don't go above 12 or below 1
-    //     if (index + changeamount < 0) return false;
-    //     int total = 0;
-    //     foreach (var item in breaks)
-    //     {
-    //         total += item;
-    //     }
-    //     total += addToTotal;
-    //     if (total > 12 || total < 1) return false;
-    //     return true;
-    // }
-
-    // List<RowCol> Cells = new() { new() };
-
 }
 
 

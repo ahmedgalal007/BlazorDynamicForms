@@ -21,8 +21,13 @@
                         <DataTypeSelect Model="@model"></DataTypeSelect>
                     </MudItem>
                     <MudItem xs="6">
-                        <InputTypeSelect Model="@model"></InputTypeSelect>
+                        <LookUp OptionType="InputType" Model="@model.InputType"
+                                Options="Enum.GetValues<InputType>().ToDictionary(e => Enum.GetName<InputType>(e))"
+                                Lable="Select Input Type"></LookUp>
                     </MudItem>
+                    @* <MudItem xs="6">
+                        <InputTypeSelect Model="@model"></InputTypeSelect>
+                    </MudItem> *@
                     <MudItem xs="12" md="6">
                         <MudNumericField T="int" @bind-Value="@model.Cols" Label="Cols" Variant="@Variant.Outlined" />
                     </MudItem>
@@ -30,9 +35,6 @@
                         <MudTextField T="string" @bind-Value="@model.Format" Label="Format" Variant="@Variant.Outlined" />
                     </MudItem>
                 </MudGrid>
-                
-                
-
             </MudCardContent>
         </MudForm>
         <MudCardActions>
@@ -46,6 +48,8 @@
 
     [Parameter]
     public List<MetaDataItem> MetaDatas { get; set; } = new();
+    [Parameter]
+    public EventCallback OnAttributeCreated { get; set; }
 
     public string Logger { get; set; }
     string print() { return Logger; }
@@ -58,6 +62,7 @@
     {
         MetaDatas.Add(new MetaDataItem(model.Name, model.DataType, model.InputType, model.Cols, model.Required, model.Format, model.Value));
         Logger = model.DataType.ToString() +  " : " + model.InputType.ToString();
+        // await OnAttributeCreated.InvokeAsync();
         await Task.CompletedTask;
     }
 }

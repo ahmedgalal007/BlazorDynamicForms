@@ -1,0 +1,37 @@
+﻿@typeparam  OptionType 
+
+<MudSelect T="OptionType" SelectedValuesChanged="ValuesChanged" @bind-Value="@Model" Label="@Lable" AnchorOrigin="Origin.BottomCenter" Variant="Variant.Outlined">
+
+    @foreach (var item in Options)
+    {
+        <MudSelectItem Value="@(item.Value)">@item.Key</MudSelectItem>
+    }
+</MudSelect>
+@code {
+
+    [Parameter]
+    public OptionType Model { get; set; }
+    [Parameter]
+    public string Lable { get; set; } = typeof(OptionType).Name;
+
+    // [Parameter]
+    // public string KeyPropertyName { get; set; }
+    // [Parameter]
+    // public string ValuePropertyName { get; set; }
+    [Parameter]
+    public Dictionary<string, OptionType> Options { get; set; } = new();
+
+    protected override Task OnInitializedAsync()
+    {
+        // foreach (var item in Enum.GetValues<OptionType>())
+        // {
+        //     inputTypes.Add(Enum.GetName<OptionType>(item), item);
+        // }
+        return base.OnInitializedAsync();
+    }
+
+    void ValuesChanged(IEnumerable<OptionType> values)
+    {
+        Model = values.FirstOrDefault();
+    }
+}

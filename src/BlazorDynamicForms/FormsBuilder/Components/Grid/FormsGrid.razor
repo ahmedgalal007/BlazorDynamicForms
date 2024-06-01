@@ -62,6 +62,12 @@
         row.AddCell();
         _rows.Insert(index, row);
         UpdateIndexes();
+        foreach (DropItem item in _items)
+        {
+            if (!FindDropItemZone(item.Identifier))
+                item.Identifier = "Passive";
+        }
+        StateHasChanged();
     }
 
     public void UpdateIndexes()

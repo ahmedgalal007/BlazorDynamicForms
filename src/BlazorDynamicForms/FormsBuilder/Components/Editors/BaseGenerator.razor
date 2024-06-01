@@ -45,7 +45,6 @@
             default:
 
                 <MudItem xs="12" md="@item.Cols">
-                    
                     <MudTextField T="string" @bind-Value="@item.Value" Label="@item.Name" InputType="@item.InputType" Format="" Required="@item.Required" RequiredError="Component Name is required!" />
                 </MudItem>
                 break;
@@ -62,7 +61,7 @@
     Add Attribute
 </MudButton>
 
- @code {
+@code {
     // public string dataType { get; set; }
     // InputType inputType = InputType.Text;
     // Dictionary<string, MetaDataItem> MyProperties { get; set; }
@@ -74,14 +73,18 @@
     {
         var parameters = new DialogParameters<PropertyAddAttributeDialog>();
         parameters.Add(x => x.MetaDatas, MetaDatas);
+        parameters.Add(x => x.OnAttributeCreated, EventCallback.Factory.Create(this, AttributeCreated));
 
         // var options = new DialogOptions { CloseButton = true, CloseOnEscapeKey = true, MaxWidth = MaxWidth.Large, FullWidth = true, Position = DialogPosition.TopCenter };
         DialogService.Show<PropertyAddAttributeDialog>("Add Attribute", parameters /* , options */);
     }
 
+    public void AttributeCreated()
+    {
+        StateHasChanged();
+    }
     protected override Task OnParametersSetAsync()
     {
-        
         return base.OnParametersSetAsync();
     }
 }
